@@ -42,10 +42,16 @@ th { background: var(--soft); font-size: 14px; color: var(--muted); font-weight:
 .grade-button { min-width: 40px; min-height: 36px; padding: 4px 10px; border-color: transparent; font-weight: 600; }
 .grade-button.empty { color: var(--muted); border: 1px dashed #b7c4d5; }
 .grade-button.failing { color: var(--danger); background: #fff0f2; }
+.reports-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); align-items: start; gap: 24px; }
+.reports-grid > .report-section { min-width: 0; margin-top: 0; }
+.report-summaries { display: grid; gap: 24px; min-width: 0; margin: 0 0 0 0;}
+.report-section { margin-top: 30px; }
+.report-section > h2 { margin-bottom: 12px; }
+.report-section > .muted { margin-bottom: 12px; }
 .report-table { min-width: 640px; }
 .report-table th:first-child, .report-table td:first-child { position: sticky; left: 0; z-index: 1; background: #fff; }
 .report-table th:first-child { background: var(--soft); }
-.report-table .report-grade { min-width: 76px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.report-table .report-grade { width: 100px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
 .report-table .mark-2 { color: #a42c39; background: #ffe4e7; }
 .report-table .mark-3 { color: #825600; background: #fff1cc; }
 .report-table .mark-4 { color: #416b24; background: #edf6d9; }
@@ -56,5 +62,6 @@ th { background: var(--soft); font-size: 14px; color: var(--muted); font-weight:
 .grade-form {display: flex;align-items: center;justify-content: center;gap: 8px;}
 .grade-form select {width: 64px;min-height: 36px;padding: 4px 8px;}
 .grade-form button {min-height: 36px;padding: 4px 8px;}
+@media (max-width: 900px) { .reports-grid { grid-template-columns: 1fr; } }
 @media (max-width: 650px) { .container { width: calc(100% - 28px); } .navigation { gap: 4px 16px; } .navigation a { font-size: 14px; } .toolbar, .form-fields { display: grid; grid-template-columns: 1fr; } label { min-width: 0; max-width: none; } .students-table { min-width: 640px; } .journal-table { min-width: 540px; } .report-table { min-width: 640px; } th, td { padding: 10px; } h1 { font-size: 26px; } }
 @media (pointer: coarse) { button, .row-actions button, .grade-button { min-height: 44px; } .grade-button { min-width: 44px; } }

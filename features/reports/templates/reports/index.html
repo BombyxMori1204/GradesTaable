@@ -6,11 +6,46 @@
 <div class="toolbar report-filters" aria-label="Фильтры отчета">
   <label>Группа<select id="filter-group"><option value="">Все группы</option></select></label>
 </div>
-<div class="table-scroll">
-  <table class="report-table">
-    <thead id="report-head"></thead>
-    <tbody id="report-body"></tbody>
-  </table>
+<div class="reports-grid">
+  <section class="report-section report-grades" aria-labelledby="grades-title">
+    <h2 id="grades-title">Оценки студентов по предметам</h2>
+    <div class="table-scroll">
+      <table class="report-table">
+        <thead id="report-head"></thead>
+        <tbody id="report-body"></tbody>
+      </table>
+    </div>
+  </section>
+  <div class="report-summaries">
+    <section class="report-section" aria-labelledby="no-grades-title">
+      <h2 id="no-grades-title">Студенты без оценок</h2>
+      <div class="table-scroll">
+        <table>
+          <thead id="no-grades-head"></thead>
+          <tbody id="no-grades-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="report-section" aria-labelledby="group-average-title">
+      <h2 id="group-average-title">Средний балл групп</h2>
+      <p class="muted">Среднее по всем выставленным оценкам студентов группы.</p>
+      <div class="table-scroll">
+        <table>
+          <thead id="group-average-head"></thead>
+          <tbody id="group-average-body"></tbody>
+        </table>
+      </div>
+    </section>
+    <section class="report-section" aria-labelledby="low-average-title">
+      <h2 id="low-average-title">Студенты со средним баллом ниже 3</h2>
+      <div class="table-scroll">
+        <table>
+          <thead id="low-average-head"></thead>
+          <tbody id="low-average-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 </div>
 {% endblock %}
 {% block scripts %}<script type="module" src="{{ url_for('reports.static', filename='reports.js') }}"></script>{% endblock %}

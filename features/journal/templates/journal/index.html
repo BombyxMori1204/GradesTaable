@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Журнал — Электронный журнал{% endblock %}
+{% block content %}
+<div class="page-heading"><h1>Журнал</h1></div>
+<p id="status" class="status" role="status" aria-live="polite" hidden></p>
+<div class="toolbar journal-filters" aria-label="Фильтры журнала">
+  <label>Предмет<select id="filter-subject"><option value="">Все предметы</option></select></label>
+  <label>Группа<select id="filter-group"><option value="">Все группы</option></select></label>
+  <label>Студент<select id="filter-student"><option value="">Все студенты</option></select></label>
+</div>
+<div class="table-scroll">
+  <table class="journal-table">
+    <thead><tr><th>Студент</th><th>Группа</th><th>Предмет</th><th class="grade-cell">Оценка</th></tr></thead>
+    <tbody id="table-body"></tbody>
+  </table>
+</div>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('journal.static', filename='journal.js') }}"></script>{% endblock %}

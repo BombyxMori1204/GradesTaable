@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Группы — Электронный журнал{% endblock %}
+{% block content %}
+<div class="page-heading"><h1>Группы</h1><button id="add-record" class="button-primary" type="button">Добавить группу</button></div>
+<p id="status" class="status" role="status" aria-live="polite" hidden></p>
+<section id="editor" class="editor" aria-labelledby="editor-title" hidden>
+  <h2 id="editor-title">Группа</h2>
+  <form id="edit-form">
+    <input id="record-id" type="hidden">
+    <div class="form-fields"><label>Название<input id="record-name" type="text" required></label></div>
+    <div class="button-row"><button class="button-primary" type="submit">Сохранить</button><button id="cancel-edit" type="button">Отмена</button></div>
+  </form>
+</section>
+<section id="confirmation" class="confirmation" aria-label="Подтверждение удаления" hidden>
+  <p id="confirmation-text"></p>
+  <div class="button-row"><button id="confirm-delete" class="button-danger" type="button">Удалить</button><button id="cancel-delete" type="button">Отмена</button></div>
+</section>
+<div class="table-scroll"><table><thead><tr><th>Название</th><th class="number">Студентов</th><th>Действия</th></tr></thead><tbody id="table-body"></tbody></table></div>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('groups.static', filename='groups.js') }}"></script>{% endblock %}

@@ -1,0 +1,10 @@
+<header class="site-header">
+  <div class="container">
+    <a class="brand" href="{{ url_for('groups.index') }}">Электронный журнал</a>
+    <nav class="navigation" aria-label="Разделы приложения">
+      {% for key, label in [('groups', 'Группы'), ('subjects', 'Предметы'), ('students', 'Студенты'), ('journal', 'Журнал'), ('reports', 'Отчеты')] %}
+      <a href="{{ url_for(key + '.index') }}"{% if active_page == key %} aria-current="page"{% endif %}>{{ label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+</header>

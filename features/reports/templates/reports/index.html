@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Отчеты — Электронный журнал{% endblock %}
+{% block content %}
+<div class="page-heading"><h1>Отчеты</h1></div>
+<p id="status" class="status" role="status" aria-live="polite" hidden></p>
+<div class="toolbar report-filters" aria-label="Фильтры отчета">
+  <label>Группа<select id="filter-group"><option value="">Все группы</option></select></label>
+</div>
+<div class="table-scroll">
+  <table class="report-table">
+    <thead id="report-head"></thead>
+    <tbody id="report-body"></tbody>
+  </table>
+</div>
+{% endblock %}
+{% block scripts %}<script type="module" src="{{ url_for('reports.static', filename='reports.js') }}"></script>{% endblock %}

@@ -18,19 +18,20 @@ def list_students():
         con.close()
 
 
-def save_student(name, group_id, record_id=None):
+def save_student(name, group_id, record_id=None, email=None):
     """Проверяет данные студента и сохраняет запись одной транзакцией.
 
     Args:
         name (str): ФИО из JSON-запроса.
         group_id (int): ID выбранной группы.
         record_id (int | None): ID записи при редактировании.
+        email (str | None): Email студента.
 
     Returns:
         dict: Сохранённая запись с неизменным ID.
 
     Raises:
-        ValueError: ФИО некорректно или группа не выбрана.
+        ValueError: ФИО, email или группа некорректны.
         LookupError: Редактируемая запись отсутствует.
     """
     if not isinstance(name, str) or not name.strip():
@@ -38,6 +39,10 @@ def save_student(name, group_id, record_id=None):
     name = name.strip()
     if len(name) > 50:
         raise ValueError("ФИО должно быть не длиннее 50 символов.")
+    if email is not None and not isinstance(email, str):
+        raise ValueError("Email должен быть строкой.")
+    email = email.strip() if email is not None else ""
+    email = email or None
     if isinstance(group_id, bool) or not isinstance(group_id, int) or group_id <= 0:
         raise ValueError("Выберите группу.")
     con = connect_db()
@@ -48,9 +53,9 @@ def save_student(name, group_id, record_id=None):
             if record_id is not None and repo.get_student(con, record_id) is None:
                 raise LookupError("Студент не найден.")
             if record_id is None:
-                record_id = repo.insert_student(con, name, group_id)
+                record_id = repo.insert_student(con, name, email, group_id)
             else:
-                repo.update_student(con, name, group_id, record_id)
+                repo.update_student(con, name, email, group_id, record_id)
             result = repo.get_student(con, record_id)
         return result
     finally:

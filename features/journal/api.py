@@ -27,3 +27,13 @@ def save_grade():
         data.get("mark"),
     )
     return {"item": item}
+
+
+@bp.delete("/api/journal/grades")
+def delete_grade():
+    """Удаляет оценку по паре студент-предмет."""
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        raise ValueError("Ожидается JSON-объект.")
+    service.delete_grade(data.get("student_id"), data.get("subject_id"))
+    return "", 204

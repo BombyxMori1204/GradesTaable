@@ -66,7 +66,9 @@ body.addEventListener("click", function(event) {
   const item = items.find(function(record) { return record.id === Number(button.dataset.id); }); if (!item) return;
   if (button.dataset.action === "edit") { openEditor(item); return; }
   pendingId = item.id; editor.hidden = true; confirmation.hidden = false;
-  document.querySelector("#confirmation-text").textContent = "Удалить «" + item.name + "»?"; message();
+  document.querySelector("#confirmation-text").textContent =
+    "Удалить предмет «" + item.name + "»? Все оценки по нему также будут удалены. Отменить это действие нельзя.";
+  message();
 });
 document.querySelector("#cancel-delete").addEventListener("click", function() { pendingId = null; confirmation.hidden = true; });
 document.querySelector("#confirm-delete").addEventListener("click", async function() {

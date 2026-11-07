@@ -87,3 +87,12 @@ def save_grade(con, student_id, subject_id, mark):
         (student_id, subject_id),
     ).fetchone()
     return dict(row)
+
+
+def delete_grade(con, student_id, subject_id):
+    """Удаляет оценку для пары студент-предмет."""
+    cursor = con.execute(
+        "DELETE FROM grades WHERE student_id = ? AND subject_id = ?",
+        (student_id, subject_id),
+    )
+    return cursor.rowcount > 0

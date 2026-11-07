@@ -61,3 +61,21 @@ def save_grade(student_id, subject_id, mark):
             return repo.save_grade(con, student_id, subject_id, mark)
     finally:
         con.close()
+
+
+def delete_grade(student_id, subject_id):
+    """Проверяет данные и удаляет оценку в транзакции."""
+    student_id = _positive_id(student_id, "студент")
+    subject_id = _positive_id(subject_id, "предмет")
+
+    con = connect_db()
+    try:
+        with con:
+            if repo.get_student(con, student_id) is None:
+                raise LookupError("Студент не найден.")
+            if repo.get_subject(con, subject_id) is None:
+                raise LookupError("Предмет не найден.")
+            if not repo.delete_grade(con, student_id, subject_id):
+                raise LookupError("Оценка не найдена.")
+    finally:
+        con.close()

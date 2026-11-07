@@ -21,7 +21,7 @@ CREATE TABLE students (
 CREATE TABLE grades (
     id INTEGER PRIMARY KEY,
     student_id INTEGER NOT NULL REFERENCES students(id),
-    subject_id INTEGER NOT NULL REFERENCES subjects(id),
+    subject_id INTEGER NOT NULL REFERENCES subjects(id) ON DELETE CASCADE,
     mark INTEGER NOT NULL CHECK(mark IN (2, 3, 4, 5)),
     UNIQUE(student_id, subject_id)
 );

@@ -84,7 +84,22 @@ body.addEventListener("change", async function(event) {
 
   const previousMark = item.mark;
   if (!select.value) {
-    select.value = previousMark === null ? "" : String(previousMark);
+    if (previousMark === null) return;
+
+    busy(true);
+    try {
+      await requestJSON(API + "/grades", "DELETE", {
+        student_id: studentId,
+        subject_id: subjectId
+      });
+      item.mark = null;
+      message("Оценка удалена.");
+    } catch (error) {
+      select.value = String(previousMark);
+      message(error.message, true);
+    } finally {
+      busy(false);
+    }
     return;
   }
 

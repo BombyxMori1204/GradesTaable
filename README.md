@@ -55,6 +55,10 @@ python app.py
 Обработчик with con фиксирует или откатывает транзакцию, а соединение
 дополнительно закрывается в finally. Репозитории commit не вызывают.
 
+Чтобы обновить существующую базу для каскадного удаления оценок при удалении
+предмета, остановите сервер и один раз выполните `python migrate_subject_grade_cascade.py`.
+Миграция сохраняет существующие данные; повторный запуск безопасен.
+
 ## Консоль SQLite
 
 Во втором терминале из корня проекта:
@@ -135,6 +139,8 @@ GET /api/journal?subject_id=1&group_id=1&student_id=1 возвращает items
 можно было поставить. Без фильтров возвращаются только выставленные оценки.
 POST /api/journal/grades принимает student_id, subject_id, mark (2, 3, 4 или 5)
 и создаёт оценку либо обновляет существующую; ответ содержит item, статус 200.
+DELETE /api/journal/grades принимает student_id и subject_id и удаляет оценку;
+при успехе возвращает пустой ответ 204.
 
 GET /api/reports?kind=groups, no_grades или failing возвращает kind и items.
 В отчёте групп поля id, name, student_count, grade_count, average_mark.

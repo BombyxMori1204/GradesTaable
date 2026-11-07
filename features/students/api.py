@@ -28,7 +28,9 @@ def save_item(record_id=None):
     data = request.get_json(silent=True)
     if not isinstance(data, dict):
         raise ValueError("Ожидается JSON-объект.")
-    item = service.save_student(data.get("name"), data.get("group_id"), record_id)
+    item = service.save_student(
+        data.get("name"), data.get("group_id"), record_id, data.get("email")
+    )
     return {"item": item}, 201 if record_id is None else 200
 
 

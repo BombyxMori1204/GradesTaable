@@ -7,6 +7,7 @@ const editor = document.querySelector("#editor");
 const form = document.querySelector("#edit-form");
 const idInput = document.querySelector("#record-id");
 const nameInput = document.querySelector("#record-name");
+const emailInput = document.querySelector("#record-email");
 const groupInput = document.querySelector("#record-group");
 const confirmation = document.querySelector("#confirmation");
 let items = [], groups = [], pendingId = null, loaded = false;
@@ -26,9 +27,10 @@ async function deleteRecord(recordId) {
 /** Строит таблицу по массиву из API. */
 function render() {
   body.replaceChildren();
-  if (!items.length) { emptyRow(body, 4); return; }
+  if (!items.length) { emptyRow(body, 5); return; }
   for (const item of items) {
     const row = document.createElement("tr"); row.append(cell(item.name));
+    row.append(cell(item.email));
     row.append(cell(item.group_name));
     row.append(cell(item.grade_count, "number"));
     const td = document.createElement("td"); td.append(actions(item.id)); row.append(td); body.append(row);
@@ -41,7 +43,7 @@ async function load(successText = "") {
   try { items = (await requestJSON(API)).items; loaded = true; render(); message(successText); }
   catch (error) {
     message((successText ? successText + " Обновление списка не удалось. " : "") + error.message, true);
-    if (!loaded) emptyRow(body, 4, "Данные не загружены");
+    if (!loaded) emptyRow(body, 5, "Данные не загружены");
   } finally { busy(false); }
 }
 
@@ -49,6 +51,7 @@ async function load(successText = "") {
 function openEditor(item = null) {
   if (!groups.length) { message("Сначала создайте хотя бы одну группу.", true); return; }
   form.reset(); idInput.value = item ? String(item.id) : ""; nameInput.value = item ? item.name : "";
+  emailInput.value = item && item.email ? item.email : "";
   groupInput.value = item ? String(item.group_id) : "";
   document.querySelector("#editor-title").textContent = item ? "Изменение студента" : "Добавление студента";
   editor.hidden = false; confirmation.hidden = true; message(); nameInput.focus();
@@ -62,7 +65,11 @@ form.addEventListener("submit", async function(event) {
   if (!groupInput.value) { message("Выберите группу.", true); groupInput.focus(); return; }
   busy(true);
   try {
-    await saveRecord(idInput.value ? Number(idInput.value) : null, {name: name, group_id: Number(groupInput.value)});
+    await saveRecord(idInput.value ? Number(idInput.value) : null, {
+      name: name,
+      email: emailInput.value.trim(),
+      group_id: Number(groupInput.value)
+    });
     editor.hidden = true; form.reset(); await load("Изменения сохранены.");
   } catch (error) { message(error.message, true); }
   finally { busy(false); }
@@ -94,7 +101,7 @@ async function initialize() {
     await load();
   } catch (error) {
     message(error.message, true);
-    if (!loaded) emptyRow(body, 4, "Данные не загружены");
+    if (!loaded) emptyRow(body, 5, "Данные не загружены");
   }
 }
 

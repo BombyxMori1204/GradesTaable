@@ -45,6 +45,7 @@ th { background: var(--soft); font-size: 14px; color: var(--muted); font-weight:
 .reports-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); align-items: start; gap: 24px; }
 .reports-grid > .report-section { min-width: 0; margin-top: 0; }
 .report-summaries { display: grid; gap: 24px; min-width: 0; margin: 0 0 0 0;}
+.report-summaries > .report-section { margin-top: 0; }
 .report-section { margin-top: 30px; }
 .report-section > h2 { margin-bottom: 12px; }
 .report-section > .muted { margin-bottom: 12px; }

@@ -1,6 +1,5 @@
 """Бизнес-правила и транзакции раздела subjects."""
 
-import sqlite3
 from db import connect_db
 from . import repo
 
@@ -71,9 +70,7 @@ def delete_subject(record_id):
     try:
         with con:
             if repo.get_subject(con, record_id) is None:
-                raise LookupError("Группа не найдена.")
+                raise LookupError("Предмет не найден.")
             repo.delete_subject(con, record_id)
-    except sqlite3.IntegrityError as error:
-        raise ValueError("В группе есть студенты. Сначала переведите или удалите их.") from error
     finally:
         con.close()

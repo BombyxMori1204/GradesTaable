@@ -11,12 +11,12 @@ def list_students(con):
     """
     cursor = con.execute(
         '''
-        SELECT s.id, s.name, s.group_id, g.name AS group_name,
+        SELECT s.id, s.name, s.email, s.group_id, g.name AS group_name,
                COUNT(gr.id) AS grade_count
         FROM students AS s
         JOIN groups AS g ON g.id = s.group_id
         LEFT JOIN grades AS gr ON gr.student_id = s.id
-        GROUP BY s.id, s.name, s.group_id, g.name
+        GROUP BY s.id, s.name, s.email, s.group_id, g.name
         ORDER BY s.name, s.id
         ''',
         (),
@@ -36,7 +36,7 @@ def get_student(con, record_id):
     """
     cursor = con.execute(
         '''
-        SELECT id, name, group_id FROM students WHERE id = ?
+        SELECT id, name, email, group_id FROM students WHERE id = ?
         ''',
         (record_id,),
     )
@@ -55,7 +55,7 @@ def group_exists(con, group_id):
     return cursor.fetchone() is not None
 
 
-def insert_student(con, name, group_id):
+def insert_student(con, name, email, group_id):
     """Добавляет студента без фиксации транзакции.
 
     Args:
@@ -67,15 +67,15 @@ def insert_student(con, name, group_id):
     """
     cursor = con.execute(
         '''
-        INSERT INTO students (name, group_id) VALUES (?, ?)
+        INSERT INTO students (name, email, group_id) VALUES (?, ?, ?)
         ''',
-        (name, group_id),
+        (name, email, group_id),
     )
     return cursor.lastrowid
 
 
-def update_student(con, name, group_id, record_id):
-    """Изменяет ФИО и группу студента.
+def update_student(con, name, email, group_id, record_id):
+    """Изменяет ФИО, email и группу студента.
 
     Args:
         con (sqlite3.Connection): Соединение текущей операции.
@@ -87,9 +87,9 @@ def update_student(con, name, group_id, record_id):
     """
     cursor = con.execute(
         '''
-        UPDATE students SET name = ?, group_id = ? WHERE id = ?
+        UPDATE students SET name = ?, email = ?, group_id = ? WHERE id = ?
         ''',
-        (name, group_id, record_id),
+        (name, email, group_id, record_id),
     )
 
 
